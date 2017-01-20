@@ -37,4 +37,5 @@ sysinfo.txt
 .DS_Store
 
 Demo/Assets/*
-!Demo/Assets/BeginHQ/
+!Prepared/Assets/BeginHQ/
+!Demo/Assets/FivePlusOne/
