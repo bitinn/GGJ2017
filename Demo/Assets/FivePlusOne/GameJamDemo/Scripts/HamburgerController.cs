@@ -22,6 +22,17 @@ namespace FivePlusOne.GameJamDemo {
 		[SerializeField]
 		Transform _playerBurgerPlate;
 
+		// simple random number generator
+		System.Random _randomNumber;
+
+		/*
+			on script awake
+		*/
+
+		void Awake () {
+			_randomNumber = new System.Random();
+		}
+
 		/*
 			next target burger
 		*/
@@ -36,20 +47,24 @@ namespace FivePlusOne.GameJamDemo {
 		*/
 
 		void CreateTargetBurger () {
+			float offsetX = 0;
 			float offsetY = 0;
-			List<HamburgerIngredient> targetBurgerLayers = HamburgerGenerator.MakeBurger(6);
+			float offsetZ = 0;
+			List<HamburgerIngredient> targetBurgerLayers = HamburgerGenerator.MakeBurger(_randomNumber.Next(5, 10));
 
 			for (var i = 0; i < targetBurgerLayers.Count; i++) {
 				var ingredientObject = SearchIngredient(targetBurgerLayers[i]);
 
 				var layer = Instantiate(
 					ingredientObject.Ingredient
-					, new Vector3(0, offsetY, 0)
+					, new Vector3(offsetX, offsetY, offsetZ)
 					, Quaternion.identity
 					, _targetBurgerPlate
 				);
 				layer.SetActive(true);
 
+				offsetX = (float) _randomNumber.NextDouble() / 10;
+				offsetZ = (float) _randomNumber.NextDouble() / 10;
 				offsetY += ingredientObject.Height;
 			}
 		}
