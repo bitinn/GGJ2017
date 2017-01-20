@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace FivePlusOne.GGJ2017 {
+namespace FivePlusOne.GameJamDemo {
 
 	public class HamburgerController : MonoBehaviour {
 
