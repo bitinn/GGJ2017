@@ -35,3 +35,6 @@ sysinfo.txt
 ### custom ignore list
 
 .DS_Store
+
+Demo/Assets/*
+!Demo/Assets/BeginHQ/
