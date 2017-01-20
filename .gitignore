@@ -39,3 +39,5 @@ sysinfo.txt
 Demo/Assets/*
 !Prepared/Assets/BeginHQ/
 !Demo/Assets/FivePlusOne/
+!Demo/Assets/ProBuilder\ Saved\ Assets/
+!Demo/Assets/Colr/
