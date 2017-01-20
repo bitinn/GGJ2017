@@ -10,7 +10,7 @@ namespace FivePlusOne.GameJamDemo {
 
 	public class HamburgerController : MonoBehaviour {
 
-		[Tooltip("List of hamburger ingredient")]
+		[Tooltip("List of hamburger ingredients")]
 		[SerializeField]
 		List<IngredientObject> ingredients;
 
