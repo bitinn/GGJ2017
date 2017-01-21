@@ -3684,7 +3684,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Pineapple: Q'
+  m_Text: 'Egg: Q'
 --- !u!222 &1849682396
 CanvasRenderer:
   m_ObjectHideFlags: 0
