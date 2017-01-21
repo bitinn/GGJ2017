@@ -29,6 +29,12 @@ namespace FivePlusOne.GameJamDemo {
 		float _playerLayerOffset;
 		float _targetLayerOffset;
 
+		// layers target burger
+		List<HamburgerIngredient> _targetBurgerLayers;
+
+		// current layer number for checking correctness
+		int _playerLayerNumber;
+
 		// next ingredient to add
 		IngredientObject _nextIngredient;
 
@@ -46,7 +52,7 @@ namespace FivePlusOne.GameJamDemo {
 
 		void Update () {
 			HandlePlayerInput();
-			AutoAppendNextLayer();
+			AppendAndCheckLayer();
 		}
 
 		/*
@@ -63,10 +69,10 @@ namespace FivePlusOne.GameJamDemo {
 		*/
 
 		void CreateTargetBurger () {
-			List<HamburgerIngredient> targetBurgerLayers = HamburgerGenerator.MakeBurger(_randomNumber.Next(5, 10));
+			_targetBurgerLayers = HamburgerGenerator.MakeBurger(_randomNumber.Next(5, 10));
 
-			for (var i = 0; i < targetBurgerLayers.Count; i++) {
-				var ingredientObject = SearchIngredient(targetBurgerLayers[i]);
+			for (var i = 0; i < _targetBurgerLayers.Count; i++) {
+				var ingredientObject = SearchIngredient(_targetBurgerLayers[i]);
 
 				AddLayer(
 					_targetBurgerPlate
@@ -94,6 +100,27 @@ namespace FivePlusOne.GameJamDemo {
 
 			// reset layer height
 			_targetLayerOffset = 0;
+		}
+
+		/*
+			clean up player burger
+		*/
+
+		void ClearPlayerBurger () {
+			// remove all layers
+			List<GameObject> children = new List<GameObject>();
+			foreach (Transform child in _playerBurgerPlate) {
+				children.Add(child.gameObject);
+			}
+			children.ForEach(child => {
+				Destroy(child);
+			});
+
+			// reset layer height
+			_playerLayerOffset = 0;
+
+			// reset layer number
+			_playerLayerNumber = 0;
 		}
 
 		/*
@@ -156,7 +183,7 @@ namespace FivePlusOne.GameJamDemo {
 			}
 		}
 
-		void AutoAppendNextLayer () {
+		void AppendAndCheckLayer () {
 			if (_nextIngredient.Known) {
 				// when exist, add layer to player burger
 				AddLayer(
@@ -166,6 +193,15 @@ namespace FivePlusOne.GameJamDemo {
 					, _playerLayerOffset
 				);
 				_playerLayerOffset += _nextIngredient.Height;
+
+				// check correctness
+				if (_nextIngredient.Name != _targetBurgerLayers[_playerLayerNumber]) {
+					Debug.Log("Wrong input, update target burger.");
+					ClearPlayerBurger();
+					NextTargetBurger();
+				} else {
+					_playerLayerNumber += 1;
+				}
 
 				// reset next ingredient
 				_nextIngredient = new IngredientObject(false);
