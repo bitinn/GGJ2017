@@ -263,27 +263,35 @@ MonoBehaviour:
   - _name: 0
     _ingredient: {fileID: 846778296}
     _height: 0.2
+    _known: 1
   - _name: 1
     _ingredient: {fileID: 1508767715}
     _height: 0.2
+    _known: 1
   - _name: 2
     _ingredient: {fileID: 1689813767}
     _height: 0.2
+    _known: 1
   - _name: 3
     _ingredient: {fileID: 1251794061}
     _height: 0.2
+    _known: 1
   - _name: 4
     _ingredient: {fileID: 1008540511}
     _height: 0.2
+    _known: 1
   - _name: 5
     _ingredient: {fileID: 374957162}
     _height: 0.2
+    _known: 1
   - _name: 6
     _ingredient: {fileID: 273282397}
     _height: 0.2
+    _known: 1
   - _name: 7
     _ingredient: {fileID: 1162230253}
     _height: 0.2
+    _known: 1
   _targetBurgerPlate: {fileID: 1330039815}
   _playerBurgerPlate: {fileID: 247595637}
 --- !u!4 &179375142
