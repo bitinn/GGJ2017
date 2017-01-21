@@ -30,6 +30,22 @@ namespace FivePlusOne.GameJamDemo {
 		[SerializeField]
 		int _maxLayer = 10;
 
+		[Tooltip("Background music")]
+		[SerializeField]
+		AudioSource _bgm;
+
+		[Tooltip("SFX for next dish")]
+		[SerializeField]
+		AudioSource _nextDish;
+
+		[Tooltip("SFX for next player layer")]
+		[SerializeField]
+		AudioSource _nextLayer;
+
+		[Tooltip("SFX for winning a game")]
+		[SerializeField]
+		AudioSource _nextGame;
+
 		// simple random number generator
 		System.Random _randomNumber;
 
@@ -52,6 +68,15 @@ namespace FivePlusOne.GameJamDemo {
 
 		void Awake () {
 			_randomNumber = new System.Random();
+			_targetBurgerLayers = new List<HamburgerIngredient>();
+		}
+
+		/*
+			on game start
+		*/
+
+		void Start () {
+			_bgm.Play();
 		}
 
 		/*
@@ -68,8 +93,10 @@ namespace FivePlusOne.GameJamDemo {
 		*/
 
 		public void NextTargetBurger () {
+			ClearPlayerBurger();
 			ClearTargetBurger();
 			CreateTargetBurger();
+			_nextDish.Play();
 		}
 
 		/*
@@ -85,7 +112,6 @@ namespace FivePlusOne.GameJamDemo {
 				AddLayer(
 					_targetBurgerPlate
 					, ingredientObject.Ingredient
-					, ingredientObject.Height
 					, _targetLayerOffset
 				);
 				_targetLayerOffset += ingredientObject.Height;
@@ -132,29 +158,14 @@ namespace FivePlusOne.GameJamDemo {
 		}
 
 		/*
-			add a layer to a given burger
-		*/
-
-		void AddLayer (Transform burger, GameObject ingredient, float height, float offsetY) {
-			// slight offset in x/z coordinate for flavor
-			var offsetX = (float) _randomNumber.NextDouble() / 10;
-			var offsetZ = (float) _randomNumber.NextDouble() / 10;
-
-			// create the layer at said location and said parent burger
-			var layer = Instantiate(
-				ingredient
-				, new Vector3(offsetX, offsetY, offsetZ)
-				, Quaternion.identity
-			);
-			layer.transform.SetParent(burger, false);
-			layer.SetActive(true);
-		}
-
-		/*
 			handle player hamburger making commands
 		*/
 
 		void HandlePlayerInput () {
+			if (_targetBurgerLayers.Count == 0) {
+				return;
+			}
+
 			// find ingredient from input
 			if (Input.GetButtonUp("Pineapple")) {
 				_nextIngredient = SearchIngredient(
@@ -193,6 +204,10 @@ namespace FivePlusOne.GameJamDemo {
 					HamburgerIngredient.Bread
 				);
 			}
+
+			if (_nextIngredient.Known) {
+				PlayRandomSFX();
+			}
 		}
 
 		void AppendAndCheckLayer () {
@@ -201,7 +216,6 @@ namespace FivePlusOne.GameJamDemo {
 				AddLayer(
 					_playerBurgerPlate
 					, _nextIngredient.Ingredient
-					, _nextIngredient.Height
 					, _playerLayerOffset
 				);
 				_playerLayerOffset += _nextIngredient.Height;
@@ -209,7 +223,6 @@ namespace FivePlusOne.GameJamDemo {
 				// check correctness
 				if (_nextIngredient.Name != _targetBurgerLayers[_playerLayerNumber]) {
 					Debug.Log("Wrong input, update target burger.");
-					ClearPlayerBurger();
 					NextTargetBurger();
 				} else {
 					_playerLayerNumber += 1;
@@ -218,13 +231,52 @@ namespace FivePlusOne.GameJamDemo {
 				// check win state
 				if (_playerLayerNumber >= _targetBurgerLayers.Count) {
 					Debug.Log("Hamburger done, update target burger.");
-					ClearPlayerBurger();
 					NextTargetBurger();
+					_nextGame.Play();
 				}
 
 				// reset next ingredient
 				_nextIngredient = new IngredientObject(false);
 			}
+		}
+
+		/*
+			add a layer to a given burger
+		*/
+
+		void AddLayer (Transform burger, GameObject ingredient, float height) {
+			// slight offset in x/z coordinate for flavor
+			var offsetX = (float) _randomNumber.NextDouble() * 2 + 10f;
+			var offsetZ = (float) _randomNumber.NextDouble() * 2 + 10f;
+			var offsetY = 0f;
+
+			if (burger == _targetBurgerPlate) {
+				offsetY = height;
+			} else {
+				offsetY = height + 20f;
+			}
+
+			// create the layer at said location and said parent burger
+			var layer = Instantiate(
+				ingredient
+				, new Vector3(offsetX, offsetY, offsetZ)
+				, Quaternion.identity
+			);
+			layer.transform.SetParent(burger, false);
+			layer.SetActive(true);
+
+			if (burger == _playerBurgerPlate) {
+				var rigidBody = layer.AddComponent<Rigidbody>();
+				rigidBody.constraints = RigidbodyConstraints.FreezeRotation;
+			}
+		}
+
+		/*
+			play random sound effect
+		*/
+
+		void PlayRandomSFX () {
+			_nextLayer.Play();
 		}
 
 		/*
