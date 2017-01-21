@@ -1,16 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
-public class HamburgerRotation : MonoBehaviour {
+namespace FivePlusOne.GameJamDemo {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+	public class HamburgerRotation : MonoBehaviour {
+		// rotation speed in degrees
+		[SerializeField]
+		float _angularSpeed = 5f;
+
+		/*
+			on game loop
+		*/
+
+		void Update () {
+			transform.Rotate(Vector3.up, _angularSpeed * Time.deltaTime, Space.World);
+		}
 	}
 }

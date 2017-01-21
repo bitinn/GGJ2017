@@ -131,37 +131,6 @@ namespace FivePlusOne.GameJamDemo {
 		}
 
 		/*
-			add a layer to a given burger
-		*/
-
-		void AddLayer (Transform burger, GameObject ingredient, float height) {
-			// slight offset in x/z coordinate for flavor
-			var offsetX = (float) _randomNumber.NextDouble() * 2;
-			var offsetZ = (float) _randomNumber.NextDouble() * 2;
-			var offsetY = 0f;
-
-			if (burger == _targetBurgerPlate) {
-				offsetY = height;
-			} else {
-				offsetY = height + 20f;
-			}
-
-			// create the layer at said location and said parent burger
-			var layer = Instantiate(
-				ingredient
-				, new Vector3(offsetX, offsetY, offsetZ)
-				, Quaternion.identity
-			);
-			layer.transform.SetParent(burger, false);
-			layer.SetActive(true);
-
-			if (burger == _playerBurgerPlate) {
-				var rigidBody = layer.AddComponent<Rigidbody>();
-				rigidBody.constraints = RigidbodyConstraints.FreezeRotation;
-			}
-		}
-
-		/*
 			handle player hamburger making commands
 		*/
 
@@ -234,6 +203,37 @@ namespace FivePlusOne.GameJamDemo {
 
 				// reset next ingredient
 				_nextIngredient = new IngredientObject(false);
+			}
+		}
+
+		/*
+			add a layer to a given burger
+		*/
+
+		void AddLayer (Transform burger, GameObject ingredient, float height) {
+			// slight offset in x/z coordinate for flavor
+			var offsetX = (float) _randomNumber.NextDouble() * 2 + 10f;
+			var offsetZ = (float) _randomNumber.NextDouble() * 2 + 10f;
+			var offsetY = 0f;
+
+			if (burger == _targetBurgerPlate) {
+				offsetY = height;
+			} else {
+				offsetY = height + 20f;
+			}
+
+			// create the layer at said location and said parent burger
+			var layer = Instantiate(
+				ingredient
+				, new Vector3(offsetX, offsetY, offsetZ)
+				, Quaternion.identity
+			);
+			layer.transform.SetParent(burger, false);
+			layer.SetActive(true);
+
+			if (burger == _playerBurgerPlate) {
+				var rigidBody = layer.AddComponent<Rigidbody>();
+				rigidBody.constraints = RigidbodyConstraints.FreezeRotation;
 			}
 		}
 

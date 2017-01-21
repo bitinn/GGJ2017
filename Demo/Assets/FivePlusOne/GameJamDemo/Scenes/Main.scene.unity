@@ -719,7 +719,7 @@ CanvasRenderer:
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 0fd0f37e941bc4d4b890e65450c8d0d4, type: 3}
   m_PrefabInternal: {fileID: 1818013322}
---- !u!65 &152979959
+--- !u!65 &152979962
 BoxCollider:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -967,7 +967,7 @@ GameObject:
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 8eefc7b6f3558449a99fc1c0646cd987, type: 3}
   m_PrefabInternal: {fileID: 1789602112}
---- !u!65 &233862226
+--- !u!65 &233862229
 BoxCollider:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -987,6 +987,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 247595637}
+  - component: {fileID: 247595638}
   m_Layer: 0
   m_Name: PlayerBurger
   m_TagString: Untagged
@@ -1001,13 +1002,25 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 247595636}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -30, y: 0, z: 0}
+  m_LocalPosition: {x: -35, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1706871796}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &247595638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 247595636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44a59c96b0e5f46aca908c4bbbaf729b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _angularSpeed: 5
 --- !u!1001 &268440339
 Prefab:
   m_ObjectHideFlags: 0
@@ -1424,7 +1437,7 @@ Transform:
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 909fadf657fc24da59801fb992e7aede, type: 3}
   m_PrefabInternal: {fileID: 1373734889}
---- !u!65 &432561775
+--- !u!65 &432561778
 BoxCollider:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -1440,7 +1453,7 @@ BoxCollider:
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 2365713f6099445eba1530fa39218565, type: 3}
   m_PrefabInternal: {fileID: 692228786}
---- !u!65 &495619258
+--- !u!65 &495619261
 BoxCollider:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -2091,7 +2104,7 @@ Transform:
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 20be990b9aa8a4e3a8f9a73c1ca1144c, type: 3}
   m_PrefabInternal: {fileID: 969578003}
---- !u!65 &963904500
+--- !u!65 &963904503
 BoxCollider:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -2597,7 +2610,7 @@ Transform:
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 1b1102f2047544dafad72094c17743b4, type: 3}
   m_PrefabInternal: {fileID: 334122918}
---- !u!65 &1166952407
+--- !u!65 &1166952410
 BoxCollider:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -2922,6 +2935,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1330039815}
+  - component: {fileID: 1330039816}
   m_Layer: 0
   m_Name: TargetBurger
   m_TagString: Untagged
@@ -2936,13 +2950,25 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1330039814}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1828363435}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1330039816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1330039814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44a59c96b0e5f46aca908c4bbbaf729b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _angularSpeed: 5
 --- !u!1 &1331601103
 GameObject:
   m_ObjectHideFlags: 0
@@ -3312,7 +3338,7 @@ Transform:
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 097174d1018e1432fa1d997ff6817d62, type: 3}
   m_PrefabInternal: {fileID: 1337734905}
---- !u!65 &1382903982
+--- !u!65 &1382903985
 BoxCollider:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -3328,7 +3354,7 @@ BoxCollider:
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 31179d04a44204f6bb18b5f0b353abca, type: 3}
   m_PrefabInternal: {fileID: 1373043146}
---- !u!65 &1427326835
+--- !u!65 &1427326838
 BoxCollider:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -3799,7 +3825,7 @@ CanvasRenderer:
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 5e69a7ab167ad463fac54115054a7f1e, type: 3}
   m_PrefabInternal: {fileID: 268440339}
---- !u!65 &1540354727
+--- !u!65 &1540354730
 BoxCollider:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -4094,7 +4120,7 @@ CanvasRenderer:
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: d87a3657a0fcc452a8b7f2ae2536cc78, type: 3}
   m_PrefabInternal: {fileID: 215343830}
---- !u!65 &1645480690
+--- !u!65 &1645480693
 BoxCollider:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -4713,7 +4739,7 @@ CanvasRenderer:
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 668339a5088644dc3bf869d784c68398, type: 3}
   m_PrefabInternal: {fileID: 592629520}
---- !u!65 &2045320075
+--- !u!65 &2045320078
 BoxCollider:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
