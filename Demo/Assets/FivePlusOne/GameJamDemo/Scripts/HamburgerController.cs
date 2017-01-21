@@ -118,13 +118,20 @@ namespace FivePlusOne.GameJamDemo {
 
 		void HandlePlayerInput () {
 			if (Input.GetButtonUp("AnyIngredient")) {
-				// TODO
-				_playerLayerOffset += 0.2f;
+				var ingredientObject = SearchIngredient(
+					HamburgerIngredient.Meat
+				);
+
+				AddLayer(
+					_playerBurgerPlate
+					, ingredientObject.Ingredient
+					, ingredientObject.Height
+				);
 			}
 		}
 
 		/*
-			search for an ingredient
+			search for an ingredient (should switch to key/value mapping)
 		*/
 
 		IngredientObject SearchIngredient (HamburgerIngredient name) {
