@@ -188,6 +188,10 @@ namespace FivePlusOne.GameJamDemo {
 				_nextIngredient = SearchIngredient(
 					HamburgerIngredient.Tomatoes
 				);
+			} else if (Input.GetButtonUp("Bread")) {
+				_nextIngredient = SearchIngredient(
+					HamburgerIngredient.Bread
+				);
 			}
 		}
 
