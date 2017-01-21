@@ -25,6 +25,10 @@ namespace FivePlusOne.GameJamDemo {
 		// simple random number generator
 		System.Random _randomNumber;
 
+		// height of player and target burger
+		float _playerLayerOffset;
+		float _targetLayerOffset;
+
 		/*
 			on script awake
 		*/
@@ -34,8 +38,12 @@ namespace FivePlusOne.GameJamDemo {
 		}
 
 		/*
-			
+			on game loop
 		*/
+
+		void Update () {
+			HandlePlayerInput();
+		}
 
 		/*
 			next target burger
@@ -51,25 +59,16 @@ namespace FivePlusOne.GameJamDemo {
 		*/
 
 		void CreateTargetBurger () {
-			float offsetX = 0;
-			float offsetY = 0;
-			float offsetZ = 0;
 			List<HamburgerIngredient> targetBurgerLayers = HamburgerGenerator.MakeBurger(_randomNumber.Next(5, 10));
 
 			for (var i = 0; i < targetBurgerLayers.Count; i++) {
 				var ingredientObject = SearchIngredient(targetBurgerLayers[i]);
 
-				var layer = Instantiate(
-					ingredientObject.Ingredient
-					, new Vector3(offsetX, offsetY, offsetZ)
-					, Quaternion.identity
+				AddLayer(
+					_targetBurgerPlate
+					, ingredientObject.Ingredient
+					, ingredientObject.Height
 				);
-				layer.transform.SetParent(_targetBurgerPlate, false);
-				layer.SetActive(true);
-
-				offsetX = (float) _randomNumber.NextDouble() / 10;
-				offsetZ = (float) _randomNumber.NextDouble() / 10;
-				offsetY += ingredientObject.Height;
 			}
 		}
 
@@ -78,6 +77,7 @@ namespace FivePlusOne.GameJamDemo {
 		*/
 
 		void ClearTargetBurger () {
+			// remove all layers
 			List<GameObject> children = new List<GameObject>();
 			foreach (Transform child in _targetBurgerPlate) {
 				children.Add(child.gameObject);
@@ -85,6 +85,42 @@ namespace FivePlusOne.GameJamDemo {
 			children.ForEach(child => {
 				Destroy(child);
 			});
+
+			// reset layer height
+			_targetLayerOffset = 0;
+		}
+
+		/*
+			add a layer to a given burger
+		*/
+
+		void AddLayer (Transform burger, GameObject ingredient, float height) {
+			// slight offset in x/z coordinate for flavor
+			var offsetX = (float) _randomNumber.NextDouble() / 10;
+			var offsetZ = (float) _randomNumber.NextDouble() / 10;
+
+			// create the layer at said location and said parent burger
+			var layer = Instantiate(
+				ingredient
+				, new Vector3(offsetX, _targetLayerOffset, offsetZ)
+				, Quaternion.identity
+			);
+			layer.transform.SetParent(burger, false);
+			layer.SetActive(true);
+
+			// offset for the next layer
+			_targetLayerOffset += height;
+		}
+
+		/*
+			handle player hamburger making commands
+		*/
+
+		void HandlePlayerInput () {
+			if (Input.GetButtonUp("AnyIngredient")) {
+				// TODO
+				_playerLayerOffset += 0.2f;
+			}
 		}
 
 		/*

@@ -151,7 +151,7 @@ Material:
       second: {r: 0, g: 0.7, b: 0.74, a: 0}
     - first:
         name: _Color2
-      second: {r: 0.97, g: 0.67, b: 0.51, a: 0}
+      second: {r: 0.89705884, g: 0.54431516, b: 0.35618514, a: 0}
     - first:
         name: _Direction
       second: {r: 0, g: 1, b: 0, a: 0}
