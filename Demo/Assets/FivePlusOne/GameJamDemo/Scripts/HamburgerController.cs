@@ -22,6 +22,14 @@ namespace FivePlusOne.GameJamDemo {
 		[SerializeField]
 		Transform _playerBurgerPlate;
 
+		[Tooltip("Edit game difficulty")]
+		[SerializeField]
+		int _minLayer = 5;
+
+		[Tooltip("Edit game difficulty")]
+		[SerializeField]
+		int _maxLayer = 10;
+
 		// simple random number generator
 		System.Random _randomNumber;
 
@@ -69,7 +77,7 @@ namespace FivePlusOne.GameJamDemo {
 		*/
 
 		void CreateTargetBurger () {
-			_targetBurgerLayers = HamburgerGenerator.MakeBurger(_randomNumber.Next(5, 10));
+			_targetBurgerLayers = HamburgerGenerator.MakeBurger(_randomNumber.Next(_minLayer, _maxLayer));
 
 			for (var i = 0; i < _targetBurgerLayers.Count; i++) {
 				var ingredientObject = SearchIngredient(_targetBurgerLayers[i]);
@@ -201,6 +209,13 @@ namespace FivePlusOne.GameJamDemo {
 					NextTargetBurger();
 				} else {
 					_playerLayerNumber += 1;
+				}
+
+				// check win state
+				if (_playerLayerNumber >= _targetBurgerLayers.Count) {
+					Debug.Log("Hamburger done, update target burger.");
+					ClearPlayerBurger();
+					NextTargetBurger();
 				}
 
 				// reset next ingredient
