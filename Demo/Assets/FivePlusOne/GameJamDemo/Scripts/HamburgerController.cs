@@ -137,8 +137,8 @@ namespace FivePlusOne.GameJamDemo {
 
 		void AddLayer (Transform burger, GameObject ingredient, float height, float offsetY) {
 			// slight offset in x/z coordinate for flavor
-			var offsetX = (float) _randomNumber.NextDouble() / 10;
-			var offsetZ = (float) _randomNumber.NextDouble() / 10;
+			var offsetX = (float) _randomNumber.NextDouble() * 2;
+			var offsetZ = (float) _randomNumber.NextDouble() * 2;
 
 			// create the layer at said location and said parent burger
 			var layer = Instantiate(
