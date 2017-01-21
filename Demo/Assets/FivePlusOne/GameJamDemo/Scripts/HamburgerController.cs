@@ -85,7 +85,6 @@ namespace FivePlusOne.GameJamDemo {
 				AddLayer(
 					_targetBurgerPlate
 					, ingredientObject.Ingredient
-					, ingredientObject.Height
 					, _targetLayerOffset
 				);
 				_targetLayerOffset += ingredientObject.Height;
@@ -135,10 +134,17 @@ namespace FivePlusOne.GameJamDemo {
 			add a layer to a given burger
 		*/
 
-		void AddLayer (Transform burger, GameObject ingredient, float height, float offsetY) {
+		void AddLayer (Transform burger, GameObject ingredient, float height) {
 			// slight offset in x/z coordinate for flavor
 			var offsetX = (float) _randomNumber.NextDouble() * 2;
 			var offsetZ = (float) _randomNumber.NextDouble() * 2;
+			var offsetY = 0f;
+
+			if (burger == _targetBurgerPlate) {
+				offsetY = height;
+			} else {
+				offsetY = height + 20f;
+			}
 
 			// create the layer at said location and said parent burger
 			var layer = Instantiate(
@@ -148,6 +154,11 @@ namespace FivePlusOne.GameJamDemo {
 			);
 			layer.transform.SetParent(burger, false);
 			layer.SetActive(true);
+
+			if (burger == _playerBurgerPlate) {
+				var rigidBody = layer.AddComponent<Rigidbody>();
+				rigidBody.constraints = RigidbodyConstraints.FreezeRotation;
+			}
 		}
 
 		/*
@@ -201,7 +212,6 @@ namespace FivePlusOne.GameJamDemo {
 				AddLayer(
 					_playerBurgerPlate
 					, _nextIngredient.Ingredient
-					, _nextIngredient.Height
 					, _playerLayerOffset
 				);
 				_playerLayerOffset += _nextIngredient.Height;
