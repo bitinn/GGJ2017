@@ -34,6 +34,10 @@ namespace FivePlusOne.GameJamDemo {
 		}
 
 		/*
+			
+		*/
+
+		/*
 			next target burger
 		*/
 
@@ -59,8 +63,8 @@ namespace FivePlusOne.GameJamDemo {
 					ingredientObject.Ingredient
 					, new Vector3(offsetX, offsetY, offsetZ)
 					, Quaternion.identity
-					, _targetBurgerPlate
 				);
+				layer.transform.SetParent(_targetBurgerPlate, false);
 				layer.SetActive(true);
 
 				offsetX = (float) _randomNumber.NextDouble() / 10;
