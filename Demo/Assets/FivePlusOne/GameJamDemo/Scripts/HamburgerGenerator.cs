@@ -18,10 +18,14 @@ namespace FivePlusOne.GameJamDemo {
 			var ingredients = System.Enum.GetValues(typeof(HamburgerIngredient));
 			var randomNumber = new System.Random();
 
+			burger.Add(HamburgerIngredient.Bread);
+
 			for (var i = 0; i < layerCount; i++) {
 				var ingredient = (HamburgerIngredient) ingredients.GetValue(randomNumber.Next(0, ingredients.Length));
 				burger.Add(ingredient);
 			}
+
+			burger.Add(HamburgerIngredient.Bread);
 
 			return burger;
 		}
@@ -33,6 +37,6 @@ namespace FivePlusOne.GameJamDemo {
 
 	[System.Serializable]
 	public enum HamburgerIngredient {
-		Pineapple, Meat, Lettuce, Pickles, Bacon, Onions, Cheese, Tomatoes
+		Pineapple, Meat, Lettuce, Pickles, Bacon, Onions, Cheese, Tomatoes, Bread
 	};
 }

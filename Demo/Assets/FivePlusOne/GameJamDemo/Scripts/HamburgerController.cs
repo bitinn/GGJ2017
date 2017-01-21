@@ -22,8 +22,29 @@ namespace FivePlusOne.GameJamDemo {
 		[SerializeField]
 		Transform _playerBurgerPlate;
 
+		[Tooltip("Edit game difficulty")]
+		[SerializeField]
+		int _minLayer = 5;
+
+		[Tooltip("Edit game difficulty")]
+		[SerializeField]
+		int _maxLayer = 10;
+
 		// simple random number generator
 		System.Random _randomNumber;
+
+		// height of player and target burger
+		float _playerLayerOffset;
+		float _targetLayerOffset;
+
+		// layers target burger
+		List<HamburgerIngredient> _targetBurgerLayers;
+
+		// current layer number for checking correctness
+		int _playerLayerNumber;
+
+		// next ingredient to add
+		IngredientObject _nextIngredient;
 
 		/*
 			on script awake
@@ -31,6 +52,15 @@ namespace FivePlusOne.GameJamDemo {
 
 		void Awake () {
 			_randomNumber = new System.Random();
+		}
+
+		/*
+			on game loop
+		*/
+
+		void Update () {
+			HandlePlayerInput();
+			AppendAndCheckLayer();
 		}
 
 		/*
@@ -47,25 +77,18 @@ namespace FivePlusOne.GameJamDemo {
 		*/
 
 		void CreateTargetBurger () {
-			float offsetX = 0;
-			float offsetY = 0;
-			float offsetZ = 0;
-			List<HamburgerIngredient> targetBurgerLayers = HamburgerGenerator.MakeBurger(_randomNumber.Next(5, 10));
+			_targetBurgerLayers = HamburgerGenerator.MakeBurger(_randomNumber.Next(_minLayer, _maxLayer));
 
-			for (var i = 0; i < targetBurgerLayers.Count; i++) {
-				var ingredientObject = SearchIngredient(targetBurgerLayers[i]);
+			for (var i = 0; i < _targetBurgerLayers.Count; i++) {
+				var ingredientObject = SearchIngredient(_targetBurgerLayers[i]);
 
-				var layer = Instantiate(
-					ingredientObject.Ingredient
-					, new Vector3(offsetX, offsetY, offsetZ)
-					, Quaternion.identity
-					, _targetBurgerPlate
+				AddLayer(
+					_targetBurgerPlate
+					, ingredientObject.Ingredient
+					, ingredientObject.Height
+					, _targetLayerOffset
 				);
-				layer.SetActive(true);
-
-				offsetX = (float) _randomNumber.NextDouble() / 10;
-				offsetZ = (float) _randomNumber.NextDouble() / 10;
-				offsetY += ingredientObject.Height;
+				_targetLayerOffset += ingredientObject.Height;
 			}
 		}
 
@@ -74,6 +97,7 @@ namespace FivePlusOne.GameJamDemo {
 		*/
 
 		void ClearTargetBurger () {
+			// remove all layers
 			List<GameObject> children = new List<GameObject>();
 			foreach (Transform child in _targetBurgerPlate) {
 				children.Add(child.gameObject);
@@ -81,10 +105,130 @@ namespace FivePlusOne.GameJamDemo {
 			children.ForEach(child => {
 				Destroy(child);
 			});
+
+			// reset layer height
+			_targetLayerOffset = 0;
 		}
 
 		/*
-			search for an ingredient
+			clean up player burger
+		*/
+
+		void ClearPlayerBurger () {
+			// remove all layers
+			List<GameObject> children = new List<GameObject>();
+			foreach (Transform child in _playerBurgerPlate) {
+				children.Add(child.gameObject);
+			}
+			children.ForEach(child => {
+				Destroy(child);
+			});
+
+			// reset layer height
+			_playerLayerOffset = 0;
+
+			// reset layer number
+			_playerLayerNumber = 0;
+		}
+
+		/*
+			add a layer to a given burger
+		*/
+
+		void AddLayer (Transform burger, GameObject ingredient, float height, float offsetY) {
+			// slight offset in x/z coordinate for flavor
+			var offsetX = (float) _randomNumber.NextDouble() / 10;
+			var offsetZ = (float) _randomNumber.NextDouble() / 10;
+
+			// create the layer at said location and said parent burger
+			var layer = Instantiate(
+				ingredient
+				, new Vector3(offsetX, offsetY, offsetZ)
+				, Quaternion.identity
+			);
+			layer.transform.SetParent(burger, false);
+			layer.SetActive(true);
+		}
+
+		/*
+			handle player hamburger making commands
+		*/
+
+		void HandlePlayerInput () {
+			// find ingredient from input
+			if (Input.GetButtonUp("Pineapple")) {
+				_nextIngredient = SearchIngredient(
+					HamburgerIngredient.Pineapple
+				);
+			} else if (Input.GetButtonUp("Meat")) {
+				_nextIngredient = SearchIngredient(
+					HamburgerIngredient.Meat
+				);
+			} else if (Input.GetButtonUp("Lettuce")) {
+				_nextIngredient = SearchIngredient(
+					HamburgerIngredient.Lettuce
+				);
+			} else if (Input.GetButtonUp("Pickles")) {
+				_nextIngredient = SearchIngredient(
+					HamburgerIngredient.Pickles
+				);
+			} else if (Input.GetButtonUp("Bacon")) {
+				_nextIngredient = SearchIngredient(
+					HamburgerIngredient.Bacon
+				);
+			} else if (Input.GetButtonUp("Onions")) {
+				_nextIngredient = SearchIngredient(
+					HamburgerIngredient.Onions
+				);
+			} else if (Input.GetButtonUp("Cheese")) {
+				_nextIngredient = SearchIngredient(
+					HamburgerIngredient.Cheese
+				);
+			} else if (Input.GetButtonUp("Tomatoes")) {
+				_nextIngredient = SearchIngredient(
+					HamburgerIngredient.Tomatoes
+				);
+			} else if (Input.GetButtonUp("Bread")) {
+				_nextIngredient = SearchIngredient(
+					HamburgerIngredient.Bread
+				);
+			}
+		}
+
+		void AppendAndCheckLayer () {
+			if (_nextIngredient.Known) {
+				// when exist, add layer to player burger
+				AddLayer(
+					_playerBurgerPlate
+					, _nextIngredient.Ingredient
+					, _nextIngredient.Height
+					, _playerLayerOffset
+				);
+				_playerLayerOffset += _nextIngredient.Height;
+
+				// check correctness
+				if (_nextIngredient.Name != _targetBurgerLayers[_playerLayerNumber]) {
+					Debug.Log("Wrong input, update target burger.");
+					ClearPlayerBurger();
+					NextTargetBurger();
+				} else {
+					_playerLayerNumber += 1;
+				}
+
+				// check win state
+				if (_playerLayerNumber >= _targetBurgerLayers.Count) {
+					Debug.Log("Hamburger done, update target burger.");
+					ClearPlayerBurger();
+					NextTargetBurger();
+				}
+
+				// reset next ingredient
+				_nextIngredient = new IngredientObject(false);
+			}
+		}
+
+		/*
+			search for an ingredient (should switch to key/value mapping)
 		*/
 
 		IngredientObject SearchIngredient (HamburgerIngredient name) {
@@ -114,6 +258,9 @@ namespace FivePlusOne.GameJamDemo {
 		[SerializeField]
 		float _height;
 
+		[SerializeField]
+		bool _known;
+
 		public HamburgerIngredient Name {
 			get { return _name; }
 		}
@@ -126,10 +273,22 @@ namespace FivePlusOne.GameJamDemo {
 			get { return _height; }
 		}
 
+		public bool Known {
+			get { return _known; }
+		}
+
+		public IngredientObject (bool known) {
+			_name = HamburgerIngredient.Pineapple;
+			_ingredient = new GameObject();
+			_height = 0f;
+			_known = known;
+		}
+
 		public IngredientObject (HamburgerIngredient name, GameObject ingredient, float height) {
 			_name = name;
 			_ingredient = ingredient;
 			_height = height;
+			_known = true;
 		}
 	}
 }
