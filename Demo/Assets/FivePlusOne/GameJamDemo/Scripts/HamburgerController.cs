@@ -42,6 +42,10 @@ namespace FivePlusOne.GameJamDemo {
 		[SerializeField]
 		AudioSource _nextLayer;
 
+		[Tooltip("SFX for winning a game")]
+		[SerializeField]
+		AudioSource _nextGame;
+
 		// simple random number generator
 		System.Random _randomNumber;
 
@@ -64,6 +68,7 @@ namespace FivePlusOne.GameJamDemo {
 
 		void Awake () {
 			_randomNumber = new System.Random();
+			_targetBurgerLayers = new List<HamburgerIngredient>();
 		}
 
 		/*
@@ -157,6 +162,10 @@ namespace FivePlusOne.GameJamDemo {
 		*/
 
 		void HandlePlayerInput () {
+			if (_targetBurgerLayers.Count == 0) {
+				return;
+			}
+
 			// find ingredient from input
 			if (Input.GetButtonUp("Pineapple")) {
 				_nextIngredient = SearchIngredient(
@@ -223,6 +232,7 @@ namespace FivePlusOne.GameJamDemo {
 				if (_playerLayerNumber >= _targetBurgerLayers.Count) {
 					Debug.Log("Hamburger done, update target burger.");
 					NextTargetBurger();
+					_nextGame.Play();
 				}
 
 				// reset next ingredient
