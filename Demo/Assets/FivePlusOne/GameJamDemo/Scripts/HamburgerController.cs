@@ -30,6 +30,18 @@ namespace FivePlusOne.GameJamDemo {
 		[SerializeField]
 		int _maxLayer = 10;
 
+		[Tooltip("Background music")]
+		[SerializeField]
+		AudioSource _bgm;
+
+		[Tooltip("SFX for next dish")]
+		[SerializeField]
+		AudioSource _nextDish;
+
+		[Tooltip("SFX for next player layer")]
+		[SerializeField]
+		AudioSource _nextLayer;
+
 		// simple random number generator
 		System.Random _randomNumber;
 
@@ -55,6 +67,14 @@ namespace FivePlusOne.GameJamDemo {
 		}
 
 		/*
+			on game start
+		*/
+
+		void Start () {
+			_bgm.Play();
+		}
+
+		/*
 			on game loop
 		*/
 
@@ -68,8 +88,10 @@ namespace FivePlusOne.GameJamDemo {
 		*/
 
 		public void NextTargetBurger () {
+			ClearPlayerBurger();
 			ClearTargetBurger();
 			CreateTargetBurger();
+			_nextDish.Play();
 		}
 
 		/*
@@ -173,6 +195,10 @@ namespace FivePlusOne.GameJamDemo {
 					HamburgerIngredient.Bread
 				);
 			}
+
+			if (_nextIngredient.Known) {
+				PlayRandomSFX();
+			}
 		}
 
 		void AppendAndCheckLayer () {
@@ -188,7 +214,6 @@ namespace FivePlusOne.GameJamDemo {
 				// check correctness
 				if (_nextIngredient.Name != _targetBurgerLayers[_playerLayerNumber]) {
 					Debug.Log("Wrong input, update target burger.");
-					ClearPlayerBurger();
 					NextTargetBurger();
 				} else {
 					_playerLayerNumber += 1;
@@ -197,7 +222,6 @@ namespace FivePlusOne.GameJamDemo {
 				// check win state
 				if (_playerLayerNumber >= _targetBurgerLayers.Count) {
 					Debug.Log("Hamburger done, update target burger.");
-					ClearPlayerBurger();
 					NextTargetBurger();
 				}
 
@@ -235,6 +259,14 @@ namespace FivePlusOne.GameJamDemo {
 				var rigidBody = layer.AddComponent<Rigidbody>();
 				rigidBody.constraints = RigidbodyConstraints.FreezeRotation;
 			}
+		}
+
+		/*
+			play random sound effect
+		*/
+
+		void PlayRandomSFX () {
+			_nextLayer.Play();
 		}
 
 		/*
