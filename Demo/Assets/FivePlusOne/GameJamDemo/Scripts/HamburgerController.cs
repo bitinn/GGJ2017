@@ -46,6 +46,14 @@ namespace FivePlusOne.GameJamDemo {
 		[SerializeField]
 		AudioSource _nextGame;
 
+		[Tooltip("Main game view")]
+		[SerializeField]
+		GameObject _gameView;
+
+		[Tooltip("Main menu view")]
+		[SerializeField]
+		GameObject _menuView;
+
 		// simple random number generator
 		System.Random _randomNumber;
 
@@ -86,6 +94,16 @@ namespace FivePlusOne.GameJamDemo {
 		void Update () {
 			HandlePlayerInput();
 			AppendAndCheckLayer();
+		}
+
+		/*
+			start game
+		*/
+
+		public void StartGame () {
+			_gameView.SetActive(true);
+			_menuView.SetActive(false);
+			NextTargetBurger();
 		}
 
 		/*
