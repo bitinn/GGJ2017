@@ -6804,7 +6804,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Serve a Burger
+  m_Text: Serve a Burger in under 10 Seconds
 --- !u!222 &2038539243
 CanvasRenderer:
   m_ObjectHideFlags: 0

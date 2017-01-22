@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using SD = System.Diagnostics;
 
 namespace FivePlusOne.GameJamDemo {
 	/*
@@ -110,6 +111,9 @@ namespace FivePlusOne.GameJamDemo {
 		// player score
 		int _scoreCount = 0;
 
+		// timer
+		SD.Stopwatch _watch;
+
 		/*
 			on script awake
 		*/
@@ -117,6 +121,7 @@ namespace FivePlusOne.GameJamDemo {
 		void Awake () {
 			_randomNumber = new System.Random();
 			_targetBurgerLayers = new List<HamburgerIngredient>();
+			_watch = new SD.Stopwatch();
 		}
 
 		/*
@@ -161,6 +166,8 @@ namespace FivePlusOne.GameJamDemo {
 			ClearTargetBurger();
 			CreateTargetBurger();
 			_nextDish.Play();
+			_watch.Reset();
+			_watch.Start();
 		}
 
 		/*
@@ -312,8 +319,14 @@ namespace FivePlusOne.GameJamDemo {
 					Debug.Log("Hamburger done, update target burger.");
 					_minLayer *= 2;
 					_maxLayer = _minLayer + 1;
-					//_scoreCount += 100;
-					//_scoreText.text = _scoreCount.ToString();
+
+					_watch.Stop();
+					if (_watch.Elapsed.TotalMilliseconds < 10000) {
+						_scoreCount += _targetBurgerLayers.Count;
+						_scoreText.text = _scoreCount.ToString();
+						_finalGame.Play();
+					}
+
 					NextTargetBurger();
 					_nextGame.Play();
 				}
