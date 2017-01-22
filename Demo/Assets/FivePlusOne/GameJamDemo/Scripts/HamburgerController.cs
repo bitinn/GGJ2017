@@ -71,6 +71,14 @@ namespace FivePlusOne.GameJamDemo {
 		[SerializeField]
 		GameObject _winView;
 
+		[Tooltip("Main player plate")]
+		[SerializeField]
+		GameObject _playerPlate;
+
+		[Tooltip("Main target plate")]
+		[SerializeField]
+		GameObject _targetPlate;
+
 		[Tooltip("Main score number")]
 		[SerializeField]
 		Text _scoreText;
@@ -133,6 +141,8 @@ namespace FivePlusOne.GameJamDemo {
 			_scoreView.SetActive(true);
 			_menuView.SetActive(false);
 			_winView.SetActive(false);
+			_playerPlate.SetActive(true);
+			_targetPlate.SetActive(true);
 			_minLayer = 2;
 			_maxLayer = 3;
 			NextTargetBurger();
@@ -180,7 +190,9 @@ namespace FivePlusOne.GameJamDemo {
 				children.Add(child.gameObject);
 			}
 			children.ForEach(child => {
-				Destroy(child);
+				if (child.name != "Plate") {
+					Destroy(child);
+				}
 			});
 
 			// reset layer height
@@ -198,7 +210,9 @@ namespace FivePlusOne.GameJamDemo {
 				children.Add(child.gameObject);
 			}
 			children.ForEach(child => {
-				Destroy(child);
+				if (child.name != "Plate") {
+					Destroy(child);
+				}
 			});
 
 			// reset layer height
