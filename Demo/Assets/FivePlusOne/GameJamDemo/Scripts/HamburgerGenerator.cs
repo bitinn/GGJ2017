@@ -38,6 +38,6 @@ namespace FivePlusOne.GameJamDemo {
 
 	[System.Serializable]
 	public enum HamburgerIngredient {
-		Pineapple, Meat, Lettuce, Pickles, Bacon, Onions, Cheese, Tomatoes, Bread, Sword, Hotdog, Dice, Logo
+		Pineapple, Meat, Lettuce, Pickles, Bacon, Onions, Cheese, Tomatoes, Bread, Sword, Hotdog, Dice, Logo, PineappleFull
 	};
 }

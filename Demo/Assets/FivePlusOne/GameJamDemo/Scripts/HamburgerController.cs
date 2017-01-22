@@ -43,6 +43,14 @@ namespace FivePlusOne.GameJamDemo {
 		[SerializeField]
 		AudioSource _nextLayer;
 
+		[Tooltip("SFX for next player layer")]
+		[SerializeField]
+		AudioSource _nextLayer1;
+
+		[Tooltip("SFX for next player layer")]
+		[SerializeField]
+		AudioSource _nextLayer2;
+
 		[Tooltip("SFX for winning a game")]
 		[SerializeField]
 		AudioSource _nextGame;
@@ -345,7 +353,14 @@ namespace FivePlusOne.GameJamDemo {
 		*/
 
 		void PlayRandomSFX () {
-			_nextLayer.Play();
+			int random = _randomNumber.Next(1, 4);
+			if (random == 1) {
+				_nextLayer.Play();
+			} else if (random == 2) {
+				_nextLayer1.Play();
+			} else if (random == 3) {
+				_nextLayer2.Play();
+			}
 		}
 
 		/*
@@ -354,7 +369,7 @@ namespace FivePlusOne.GameJamDemo {
 
 		IngredientObject SearchIngredient (HamburgerIngredient name, bool skipCheck = false) {
 			if (!skipCheck && !CheckInputCorrectness(name)) {
-				int randomIngredientCount = _randomNumber.Next(9, 13);
+				int randomIngredientCount = _randomNumber.Next(9, 14);
 				var errorIngedient = _ingredients[randomIngredientCount];
 				errorIngedient.Error = true;
 				return errorIngedient;
