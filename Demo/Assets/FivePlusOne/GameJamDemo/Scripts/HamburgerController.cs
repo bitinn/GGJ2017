@@ -125,7 +125,7 @@ namespace FivePlusOne.GameJamDemo {
 			_targetBurgerLayers = HamburgerGenerator.MakeBurger(_randomNumber.Next(_minLayer, _maxLayer));
 
 			for (var i = 0; i < _targetBurgerLayers.Count; i++) {
-				var ingredientObject = SearchIngredient(_targetBurgerLayers[i]);
+				var ingredientObject = SearchIngredient(_targetBurgerLayers[i], true);
 
 				AddLayer(
 					_targetBurgerPlate
@@ -228,6 +228,10 @@ namespace FivePlusOne.GameJamDemo {
 			}
 		}
 
+		/*
+			append layer and check state is correct or not (to change)
+		*/
+
 		void AppendAndCheckLayer () {
 			if (_nextIngredient.Known) {
 				// when exist, add layer to player burger
@@ -241,7 +245,7 @@ namespace FivePlusOne.GameJamDemo {
 				// check correctness
 				if (_nextIngredient.Name != _targetBurgerLayers[_playerLayerNumber]) {
 					Debug.Log("Wrong input, update target burger.");
-					NextTargetBurger();
+					//NextTargetBurger();
 				} else {
 					_playerLayerNumber += 1;
 				}
@@ -283,10 +287,8 @@ namespace FivePlusOne.GameJamDemo {
 			layer.transform.SetParent(burger, false);
 			layer.SetActive(true);
 
-			//if (burger == _playerBurgerPlate) {
-				var rigidBody = layer.AddComponent<Rigidbody>();
-				rigidBody.constraints = RigidbodyConstraints.FreezeRotation;
-			//}
+			var rigidBody = layer.AddComponent<Rigidbody>();
+			rigidBody.constraints = RigidbodyConstraints.FreezeRotation;
 		}
 
 		/*
@@ -301,7 +303,12 @@ namespace FivePlusOne.GameJamDemo {
 			search for an ingredient (should switch to key/value mapping)
 		*/
 
-		IngredientObject SearchIngredient (HamburgerIngredient name) {
+		IngredientObject SearchIngredient (HamburgerIngredient name, bool skipCheck = false) {
+			if (!skipCheck && !CheckInputCorrectness(name)) {
+				int randomIngredientCount = _randomNumber.Next(9, 12);
+				return _ingredients[randomIngredientCount];
+			}
+
 			for (var i = 0; i < _ingredients.Count; i++) {
 				if (_ingredients[i].Name == name) {
 					return _ingredients[i];
@@ -310,6 +317,14 @@ namespace FivePlusOne.GameJamDemo {
 
 			Debug.LogWarning(string.Format("Unknown ingredient \"{0}\", fallback to default ingredient.", name));
 			return _ingredients[0];
+		}
+
+		/*
+			check input correctness
+		*/
+
+		bool CheckInputCorrectness (HamburgerIngredient name) {
+			return _targetBurgerLayers[_playerLayerNumber] == name;
 		}
 	}
 
