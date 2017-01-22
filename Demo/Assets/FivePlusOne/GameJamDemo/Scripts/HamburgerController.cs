@@ -124,6 +124,9 @@ namespace FivePlusOne.GameJamDemo {
 			_gameView.SetActive(true);
 			_scoreView.SetActive(true);
 			_menuView.SetActive(false);
+			_winView.SetActive(false);
+			_minLayer = 2;
+			_maxLayer = 3;
 			NextTargetBurger();
 		}
 
