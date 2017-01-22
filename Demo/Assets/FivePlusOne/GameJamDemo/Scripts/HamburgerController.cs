@@ -51,9 +51,13 @@ namespace FivePlusOne.GameJamDemo {
 		[SerializeField]
 		AudioSource _nextLayer2;
 
-		[Tooltip("SFX for winning a game")]
+		[Tooltip("SFX for winning a plate")]
 		[SerializeField]
 		AudioSource _nextGame;
+
+		[Tooltip("SFX for winning a game")]
+		[SerializeField]
+		AudioSource _finalGame;
 
 		[Tooltip("Main game view")]
 		[SerializeField]
@@ -299,6 +303,8 @@ namespace FivePlusOne.GameJamDemo {
 					//NextTargetBurger();
 				} else {
 					_playerLayerNumber += 1;
+					_scoreCount += 1;
+					_scoreText.text = _scoreCount.ToString();
 				}
 
 				// check win state
@@ -306,8 +312,8 @@ namespace FivePlusOne.GameJamDemo {
 					Debug.Log("Hamburger done, update target burger.");
 					_minLayer *= 2;
 					_maxLayer = _minLayer + 1;
-					_scoreCount += 100;
-					_scoreText.text = _scoreCount.ToString();
+					//_scoreCount += 100;
+					//_scoreText.text = _scoreCount.ToString();
 					NextTargetBurger();
 					_nextGame.Play();
 				}
@@ -317,6 +323,7 @@ namespace FivePlusOne.GameJamDemo {
 					_scoreView.SetActive(false);
 					_winView.SetActive(true);
 					_scoreFinal.text = _scoreCount.ToString();
+					_finalGame.Play();
 				}
 
 				// reset next ingredient
