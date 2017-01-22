@@ -798,10 +798,22 @@ MonoBehaviour:
     _ingredient: {fileID: 1353628636}
     _height: 2
     _known: 1
+  - _name: 9
+    _ingredient: {fileID: 2000658489}
+    _height: 30
+    _known: 1
+  - _name: 10
+    _ingredient: {fileID: 260130436}
+    _height: 5
+    _known: 1
+  - _name: 11
+    _ingredient: {fileID: 755003236}
+    _height: 20
+    _known: 1
   _targetBurgerPlate: {fileID: 1330039815}
   _playerBurgerPlate: {fileID: 247595637}
   _minLayer: 2
-  _maxLayer: 4
+  _maxLayer: 3
   _bgm: {fileID: 356013724}
   _nextDish: {fileID: 179375144}
   _nextLayer: {fileID: 179375143}
@@ -1270,6 +1282,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _angularSpeed: 5
+--- !u!1 &260130436 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100002, guid: c3caa1390d51844c0ba89bbd3ef45c5f, type: 3}
+  m_PrefabInternal: {fileID: 1312514714}
 --- !u!1001 &268440339
 Prefab:
   m_ObjectHideFlags: 0
@@ -2374,6 +2390,10 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 729424789}
+--- !u!1 &755003236 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100002, guid: 8281bd06c412b4039bb410160463fb78, type: 3}
+  m_PrefabInternal: {fileID: 2145648318}
 --- !u!1001 &846778294
 Prefab:
   m_ObjectHideFlags: 0
@@ -5595,6 +5615,10 @@ BoxCollider:
 GameObject:
   m_PrefabParentObject: {fileID: 100002, guid: 581572a3983ea45dba68be943427cb42, type: 3}
   m_PrefabInternal: {fileID: 1964220503}
+--- !u!1 &2000658489 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100002, guid: 4e633223cf9624f8eaf4133c85542587, type: 3}
+  m_PrefabInternal: {fileID: 1655871487}
 --- !u!1 &2038539240
 GameObject:
   m_ObjectHideFlags: 0

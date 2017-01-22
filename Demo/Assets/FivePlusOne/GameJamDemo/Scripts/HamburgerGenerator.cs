@@ -21,7 +21,8 @@ namespace FivePlusOne.GameJamDemo {
 			burger.Add(HamburgerIngredient.Bread);
 
 			for (var i = 0; i < layerCount; i++) {
-				var ingredient = (HamburgerIngredient) ingredients.GetValue(randomNumber.Next(0, ingredients.Length));
+				// the number 9 allow us to randomly generate layers up to "bread"
+				var ingredient = (HamburgerIngredient) ingredients.GetValue(randomNumber.Next(0, 9));
 				burger.Add(ingredient);
 			}
 
@@ -37,6 +38,6 @@ namespace FivePlusOne.GameJamDemo {
 
 	[System.Serializable]
 	public enum HamburgerIngredient {
-		Pineapple, Meat, Lettuce, Pickles, Bacon, Onions, Cheese, Tomatoes, Bread
+		Pineapple, Meat, Lettuce, Pickles, Bacon, Onions, Cheese, Tomatoes, Bread, Sword, Hotdog, Dice, Logo
 	};
 }

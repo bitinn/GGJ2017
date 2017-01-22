@@ -269,7 +269,7 @@ namespace FivePlusOne.GameJamDemo {
 			var offsetY = 0f;
 
 			if (burger == _targetBurgerPlate) {
-				offsetY = height;
+				offsetY = height * 3f;
 			} else {
 				offsetY = height + 20f;
 			}
@@ -283,10 +283,10 @@ namespace FivePlusOne.GameJamDemo {
 			layer.transform.SetParent(burger, false);
 			layer.SetActive(true);
 
-			if (burger == _playerBurgerPlate) {
+			//if (burger == _playerBurgerPlate) {
 				var rigidBody = layer.AddComponent<Rigidbody>();
 				rigidBody.constraints = RigidbodyConstraints.FreezeRotation;
-			}
+			//}
 		}
 
 		/*
