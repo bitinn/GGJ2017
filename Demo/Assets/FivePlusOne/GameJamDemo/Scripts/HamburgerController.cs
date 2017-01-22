@@ -1,5 +1,6 @@
 ﻿
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -54,6 +55,22 @@ namespace FivePlusOne.GameJamDemo {
 		[SerializeField]
 		GameObject _menuView;
 
+		[Tooltip("Main score view")]
+		[SerializeField]
+		GameObject _scoreView;
+
+		[Tooltip("Main win view")]
+		[SerializeField]
+		GameObject _winView;
+
+		[Tooltip("Main score number")]
+		[SerializeField]
+		Text _scoreText;
+
+		[Tooltip("Final score number")]
+		[SerializeField]
+		Text _scoreFinal;
+
 		// simple random number generator
 		System.Random _randomNumber;
 
@@ -69,6 +86,9 @@ namespace FivePlusOne.GameJamDemo {
 
 		// next ingredient to add
 		IngredientObject _nextIngredient;
+
+		// player score
+		int _scoreCount = 0;
 
 		/*
 			on script awake
@@ -102,6 +122,7 @@ namespace FivePlusOne.GameJamDemo {
 
 		public void StartGame () {
 			_gameView.SetActive(true);
+			_scoreView.SetActive(true);
 			_menuView.SetActive(false);
 			NextTargetBurger();
 		}
@@ -258,8 +279,19 @@ namespace FivePlusOne.GameJamDemo {
 				// check win state
 				if (_playerLayerNumber >= _targetBurgerLayers.Count) {
 					Debug.Log("Hamburger done, update target burger.");
+					_minLayer *= 2;
+					_maxLayer = _minLayer + 1;
+					_scoreCount += 100;
+					_scoreText.text = _scoreCount.ToString();
 					NextTargetBurger();
 					_nextGame.Play();
+				}
+
+				// check game state
+				if (_minLayer > 16) {
+					_scoreView.SetActive(false);
+					_winView.SetActive(true);
+					_scoreFinal.text = _scoreCount.ToString();
 				}
 
 				// reset next ingredient
