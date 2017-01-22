@@ -131,6 +131,7 @@ namespace FivePlusOne.GameJamDemo {
 					_targetBurgerPlate
 					, ingredientObject.Ingredient
 					, _targetLayerOffset
+					, ingredientObject.Error
 				);
 				_targetLayerOffset += ingredientObject.Height;
 			}
@@ -239,8 +240,12 @@ namespace FivePlusOne.GameJamDemo {
 					_playerBurgerPlate
 					, _nextIngredient.Ingredient
 					, _playerLayerOffset
+					, _nextIngredient.Error
 				);
-				_playerLayerOffset += _nextIngredient.Height;
+
+				if (!_nextIngredient.Error) {
+					_playerLayerOffset += _nextIngredient.Height;
+				}
 
 				// check correctness
 				if (_nextIngredient.Name != _targetBurgerLayers[_playerLayerNumber]) {
@@ -258,7 +263,7 @@ namespace FivePlusOne.GameJamDemo {
 				}
 
 				// reset next ingredient
-				_nextIngredient = new IngredientObject(false);
+				_nextIngredient = new IngredientObject(false, false);
 			}
 		}
 
@@ -266,10 +271,17 @@ namespace FivePlusOne.GameJamDemo {
 			add a layer to a given burger
 		*/
 
-		void AddLayer (Transform burger, GameObject ingredient, float height) {
+		void AddLayer (Transform burger, GameObject ingredient, float height, bool error) {
 			// slight offset in x/z coordinate for flavor
-			var offsetX = (float) _randomNumber.NextDouble() * 2 + 10f;
-			var offsetZ = (float) _randomNumber.NextDouble() * 2 + 10f;
+			float offsetX;
+			float offsetZ;
+			if (error) {
+				offsetX = (float) _randomNumber.Next(30, 50);
+				offsetZ = (float) _randomNumber.Next(30, 50);
+			} else {
+				offsetX = (float) _randomNumber.NextDouble() * 2 + 10f;
+				offsetZ = (float) _randomNumber.NextDouble() * 2 + 10f;
+			}
 			var offsetY = 0f;
 
 			if (burger == _targetBurgerPlate) {
@@ -288,7 +300,9 @@ namespace FivePlusOne.GameJamDemo {
 			layer.SetActive(true);
 
 			var rigidBody = layer.AddComponent<Rigidbody>();
-			rigidBody.constraints = RigidbodyConstraints.FreezeRotation;
+			if (!error) {
+				rigidBody.constraints = RigidbodyConstraints.FreezeRotation;
+			}
 		}
 
 		/*
@@ -305,8 +319,10 @@ namespace FivePlusOne.GameJamDemo {
 
 		IngredientObject SearchIngredient (HamburgerIngredient name, bool skipCheck = false) {
 			if (!skipCheck && !CheckInputCorrectness(name)) {
-				int randomIngredientCount = _randomNumber.Next(9, 12);
-				return _ingredients[randomIngredientCount];
+				int randomIngredientCount = _randomNumber.Next(9, 13);
+				var errorIngedient = _ingredients[randomIngredientCount];
+				errorIngedient.Error = true;
+				return errorIngedient;
 			}
 
 			for (var i = 0; i < _ingredients.Count; i++) {
@@ -346,6 +362,9 @@ namespace FivePlusOne.GameJamDemo {
 		[SerializeField]
 		bool _known;
 
+		[SerializeField]
+		bool _error;
+
 		public HamburgerIngredient Name {
 			get { return _name; }
 		}
@@ -362,11 +381,17 @@ namespace FivePlusOne.GameJamDemo {
 			get { return _known; }
 		}
 
-		public IngredientObject (bool known) {
+		public bool Error {
+			get { return _error; }
+			set { _error = value; }
+		}
+
+		public IngredientObject (bool known, bool error) {
 			_name = HamburgerIngredient.Pineapple;
 			_ingredient = new GameObject();
 			_height = 0f;
 			_known = known;
+			_error = error;
 		}
 
 		public IngredientObject (HamburgerIngredient name, GameObject ingredient, float height) {
@@ -374,6 +399,7 @@ namespace FivePlusOne.GameJamDemo {
 			_ingredient = ingredient;
 			_height = height;
 			_known = true;
+			_error = false;
 		}
 	}
 }
